@@ -1,29 +1,21 @@
-plugins {
-    id 'java'
-    id 'application'
-}
+
+apply plugin: 'java'
+apply plugin: 'maven'
 
 group = 'com.example1'
 version = '1.0-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
+description = """MyMavenToGradle"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+
 
 repositories {
-    mavenCentral()
+        
+     maven { url "https://repo.maven.apache.org/maven2" }
 }
-
 dependencies {
-    testImplementation 'junit:junit:3.8.1'
-}
-
-application {
-    mainClass = 'com.example1.App'
-}
-
-tasks.withType(Test) {
-    useJUnit()
+    testCompile group: 'junit', name: 'junit', version:'3.8.1'
 }
