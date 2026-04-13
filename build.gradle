@@ -23,3 +23,7 @@ dependencies {
 application {
     mainClass = 'com.example1.App'
 }
+
+tasks.withType(Test) {
+    useJUnit()
+}
