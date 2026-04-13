@@ -2,13 +2,17 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven'
 
-group = 'com.example1'
+group = 'com.example'
 version = '1.0-SNAPSHOT'
 
 description = """MyMavenToGradle"""
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
+
+application {
+    mainClass = 'com.example.App'
+}
 
 repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
