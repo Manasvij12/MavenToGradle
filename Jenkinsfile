@@ -1,48 +1,75 @@
 pipeline {
-    agent any  // Use any available agent
+    agent any
 
     tools {
-        gradle 'Gradle'  // Ensure this matches the name configured in Jenkins
+        maven 'Maven'
         jdk 'JDK'
     }
+
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/Manasvij12/MavenToGradle.git'
             }
         }
 
-        stage('Build') {
+        // -------------------------
+        // MAVEN BUILD (OLD SYSTEM)
+        // -------------------------
+        stage('Build with Maven') {
             steps {
-                sh 'gradle build'  // Run Gradle build
+                sh 'mvn clean package'
             }
         }
 
-        stage('Test') {
+        stage('Test with Maven') {
             steps {
-                sh 'gradle test'  // Run unit tests
+                sh 'mvn test'
             }
         }
 
-        
-        
-       
+        // -------------------------
+        // GRADLE BUILD (NEW SYSTEM)
+        // -------------------------
+        stage('Build with Gradle') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
+
+        stage('Test with Gradle') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+
+        // -------------------------
+        // RUN APPLICATION
+        // -------------------------
         stage('Run Application') {
             steps {
-                // Start the JAR application
-                sh 'gradle run'
+                sh './gradlew run'
             }
         }
 
-        
+        // -------------------------
+        // VERIFY OUTPUT
+        // -------------------------
+        stage('Compare Artifacts') {
+            steps {
+                sh 'ls -l target/'
+                sh 'ls -l build/libs/'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build and deployment successful!'
+            echo '✅ Maven to Gradle pipeline successful!'
         }
         failure {
-            echo 'Build failed!'
+            echo '❌ Pipeline failed!'
         }
     }
 }
